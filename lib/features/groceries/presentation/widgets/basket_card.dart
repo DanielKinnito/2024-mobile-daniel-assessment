@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:myapp/features/groceries/domain/entities/grocery_entity.dart';
 
-class BasketCard extends StatelessWidget {
+class BasketCard extends StatefulWidget {
   final GroceryEntity grocery;
   final VoidCallback onRemove; // Callback for the 'X' button
 
@@ -12,6 +12,11 @@ class BasketCard extends StatelessWidget {
     required this.onRemove, // Added parameter for the remove button callback
   });
 
+  @override
+  State<BasketCard> createState() => _BasketCardState();
+}
+
+class _BasketCardState extends State<BasketCard> {
   int quantity = 1;
   void _incrementQuantity() {
     setState(() {
@@ -55,7 +60,7 @@ class BasketCard extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Image.network(
-                          grocery.imageUrl,
+                          widget.grocery.imageUrl,
                           width: 60,
                           height: 60,
                           fit: BoxFit.cover,
@@ -71,7 +76,7 @@ class BasketCard extends StatelessWidget {
                           children: [
                             // Grocery title
                             Text(
-                              grocery.title,
+                              widget.grocery.title,
                               style: GoogleFonts.roboto(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w500,
@@ -82,7 +87,7 @@ class BasketCard extends StatelessWidget {
                             Row(
                               children: [
                                 Text(
-                                  '£${grocery.price.toStringAsFixed(2)}',
+                                  '£${widget.grocery.price.toStringAsFixed(2)}',
                                   style: const TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w400,
@@ -91,7 +96,7 @@ class BasketCard extends StatelessWidget {
                                 ),
                                 const SizedBox(width: 8),
                                 Text(
-                                  '£${(grocery.price - grocery.discount).toStringAsFixed(2)}',
+                                  '£${(widget.grocery.price - widget.grocery.discount).toStringAsFixed(2)}',
                                   style: const TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w500,
@@ -106,12 +111,11 @@ class BasketCard extends StatelessWidget {
                               children: [
                                 IconButton(
                                   icon: const Icon(Icons.remove),
-                                  onPressed: () {
-                                    // Handle decrement
-                                  },
+                                  onPressed: _decrementQuantity,
                                 ),
                                 Text(
-                                  quantity.toString(), // Replace with dynamic quantity
+                                  quantity
+                                      .toString(), // Replace with dynamic quantity
                                   style: const TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w500,
@@ -119,9 +123,7 @@ class BasketCard extends StatelessWidget {
                                 ),
                                 IconButton(
                                   icon: const Icon(Icons.add),
-                                  onPressed: () {
-                                    // Handle increment
-                                  },
+                                  onPressed: _incrementQuantity,
                                 ),
                               ],
                             ),
@@ -132,40 +134,6 @@ class BasketCard extends StatelessWidget {
                   ],
                 ),
               ),
-              const SizedBox(height: 8),
-              Row(
-                children: [
-                  if (grocery.options.isNotEmpty) ...[
-                    const SizedBox(height: 8),
-                    // Options in a row format
-                    ...grocery.options.map(
-                      (option) => Padding(
-                        padding: const EdgeInsets.only(right: 16.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              option.name,
-                              style: GoogleFonts.roboto(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                            Text(
-                              '£${option.price.toStringAsFixed(2)}',
-                              style: GoogleFonts.roboto(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ],
-              )
-              // Trailing total price
             ],
           ),
           // 'X' button for removing the item
@@ -173,8 +141,12 @@ class BasketCard extends StatelessWidget {
             top: 8,
             right: 8,
             child: IconButton(
+              style: IconButton.styleFrom(
+                backgroundColor: Colors.white,
+                foregroundColor: Colors.red,
+              ),
               icon: const Icon(Icons.cancel),
-              onPressed: onRemove, // Call the remove callback
+              onPressed: widget.onRemove, // Call the remove callback
             ),
           ),
         ],

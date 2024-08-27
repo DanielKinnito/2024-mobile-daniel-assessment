@@ -63,7 +63,9 @@ class BasketPage extends StatelessWidget {
                   final item = basketItems[index];
                   return BasketCard(
                     grocery: item,
-                    onRemove: () {},
+                    onRemove: () {
+                      basketItems.remove(item);
+                    },
                   );
                 },
               ),
