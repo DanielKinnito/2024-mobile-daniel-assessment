@@ -96,7 +96,7 @@ class _BasketCardState extends State<BasketCard> {
                                 ),
                                 const SizedBox(width: 8),
                                 Text(
-                                  '£${(widget.grocery.price - widget.grocery.discount).toStringAsFixed(2)}',
+                                  '£${(widget.grocery.discount).toStringAsFixed(2)}',
                                   style: const TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w500,

@@ -46,11 +46,25 @@ class BasketPage extends StatelessWidget {
                   'Order Summary',
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
-                TextButton(
-                  onPressed: () {
-                    // Handle "Add more" action
-                  },
-                  child: const Text('Add more'),
+                Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.rectangle,
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(
+                      color: const Color.fromRGBO(255, 99, 71, 1), // Button color,
+                      width: 2,
+                    ),
+                  ),
+                  child: TextButton(
+                    style: TextButton.styleFrom(
+                      foregroundColor:
+                          const Color.fromRGBO(255, 99, 71, 1), // Button color,
+                    ),
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/home');
+                    },
+                    child: const Text('Add Items'),
+                  ),
                 ),
               ],
             ),
@@ -65,6 +79,9 @@ class BasketPage extends StatelessWidget {
                     grocery: item,
                     onRemove: () {
                       basketItems.remove(item);
+                      // refresh page
+                      Navigator.pushNamed(context, '/basket',
+                          arguments: basketItems);
                     },
                   );
                 },
