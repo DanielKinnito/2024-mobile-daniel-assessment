@@ -51,7 +51,8 @@ class BasketPage extends StatelessWidget {
                     shape: BoxShape.rectangle,
                     borderRadius: BorderRadius.circular(20),
                     border: Border.all(
-                      color: const Color.fromRGBO(255, 99, 71, 1), // Button color,
+                      color:
+                          const Color.fromRGBO(255, 99, 71, 1), // Button color,
                       width: 2,
                     ),
                   ),
@@ -61,6 +62,7 @@ class BasketPage extends StatelessWidget {
                           const Color.fromRGBO(255, 99, 71, 1), // Button color,
                     ),
                     onPressed: () {
+                      // push named until to home page
                       Navigator.pushNamed(context, '/home');
                     },
                     child: const Text('Add Items'),
@@ -79,7 +81,7 @@ class BasketPage extends StatelessWidget {
                     grocery: item,
                     onRemove: () {
                       basketItems.remove(item);
-                      // refresh page
+                      // refresh page with 
                       Navigator.pushNamed(context, '/basket',
                           arguments: basketItems);
                     },
